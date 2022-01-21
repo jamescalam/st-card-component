@@ -53,7 +53,7 @@ class CardComponent extends StreamlitComponentBase<any> {
 
     // create the card
     return (
-      <div>
+      <div style={{ padding: "1rem" }}>
         
           <Card variant="outlined">
             <CardHeader
