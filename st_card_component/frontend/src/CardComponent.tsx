@@ -14,6 +14,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import LaunchIcon from '@mui/icons-material/Launch';
 import { Typography } from "@mui/material";
 
+
 // these handle the expansion animation
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -34,7 +35,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
  * automatically when your component should be re-rendered.
  */
 class CardComponent extends StreamlitComponentBase<any> {
-  state = { active: false };
+  state = { active: true };
 
   toggleActive = () => {
     console.log(this.state)
@@ -47,22 +48,26 @@ class CardComponent extends StreamlitComponentBase<any> {
     // pull in context ID, text, and score
     const title = this.props.args["title"]
     const context = this.props.args["context"]
-    const ans_start = this.props.args["ans_start"]
-    const ans_end = this.props.args["ans_end"]
-    const ans_score = this.props.args["ans_score"]
+    const highlight_start = this.props.args["highlight_start"]
+    const highlight_end = this.props.args["highlight_end"]
     const score = this.props.args["score"]
     const url = this.props.args["url"]
     const key = this.props.args["key"]
     const expand = this.state.active
 
-    // extract answer span
-    const pre_answer = context.slice(0, ans_start)
-    const answer = context.slice(ans_start, ans_end)
-    const post_answer = context.slice(ans_end)
+    // extract highlight span
+    const pre_highlight = context.slice(0, highlight_start)
+    const highlight = context.slice(highlight_start, highlight_end)
+    const post_highlight = context.slice(highlight_end)
 
     // create the card
     return (
-      <div style={{ padding: "1rem" }}>
+      <div style={{
+        paddingTop: "0.5rem",
+        paddingBottom: "0.5rem",
+        whiteSpace: "pre-wrap"
+        }}
+      >
           <Card variant="outlined">
             <CardHeader
               title={title}
@@ -70,20 +75,20 @@ class CardComponent extends StreamlitComponentBase<any> {
             />
             <CardContent>
               <Typography variant="body2">
-                {(expand) ? (pre_answer) : ("")}
+                {(expand) ? (pre_highlight) : ("")}
                 <span
                   style={{
-                    fontWeight: expand ? "bold" : "normal",
-                    color: expand ? "#f63366" : "#000000"
+                    fontWeight: expand ? "bold" : "normal"
                   }}
                 >
-                  {answer}
+                  {highlight}
                 </span>
-                {(expand) ? (post_answer) : ("")}
+                {(expand) ? (post_highlight) : ("")}
               </Typography>
             </CardContent>
             <CardActions disableSpacing>
               <IconButton
+                disabled={this.props.disabled}
                 aria-label="open source url"
                 href={url}
                 target="_PARENT"
@@ -93,6 +98,7 @@ class CardComponent extends StreamlitComponentBase<any> {
               <ExpandMore
                 expand={expand}
                 onClick={this.toggleActive}
+                disabled={this.props.disabled}
                 aria-expanded={expand}
                 aria-label="show more"
               >

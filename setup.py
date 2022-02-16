@@ -1,12 +1,12 @@
 import setuptools
 
 setuptools.setup(
-    name="streamlit-custom-component",
-    version="0.0.1",
-    author="",
+    name="st_card_component",
+    version="0.0.10",
+    author="James Briggs",
     author_email="",
-    description="",
-    long_description="",
+    description="Card component for Streamlit",
+    long_description="Card component for Streamlit",
     long_description_content_type="text/plain",
     url="",
     packages=setuptools.find_packages(),
